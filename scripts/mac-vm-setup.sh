@@ -28,7 +28,7 @@ cat << EOF > ~/Desktop/shared/gui-setup.sh
 
 #!/bin/bash
 
-if [ $(whoami) != "root" ]; then echo -e "This script requires root permission. Please try: \n sudo ~/Desktop/shared/gui-setup.sh" >&2; exit 1;
+if [ \$(whoami) != "root" ]; then echo -e "This script requires root permission. Please try:" \n "sudo ~/Desktop/shared/gui-setup.sh" >&2; exit 1;
 else
 apt update && sudo apt upgrade -y ;
 apt install -y xubuntu-desktop xrdp ; 
