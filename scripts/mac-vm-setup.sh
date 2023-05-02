@@ -34,7 +34,7 @@ if [ \$(whoami) != "root" ]; then echo -e "This script requires root permission.
 else
 apt update && sudo apt upgrade -y ;
 apt install -y xubuntu-core xrdp ; 
-echo xfce4-session > ~/.xsession ;
+echo "xfce4-session" > /home/ubuntu/.xsession ;
 echo -e "Please set a password for the default ubuntu user" ;
 passwd ubuntu ; 
 adduser xrdp ssl-cert ;
