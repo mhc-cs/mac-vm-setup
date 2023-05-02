@@ -1,5 +1,6 @@
 #!/bin/bash
 
+## this part of the script runs in mac os ##
 # check if homebrew installed
 if [[ $(command -v brew) == "" ]]; then
     read -e -p  "Homebrew is not installed on your Mac; would you like to install it? [ y | N ] "  user_response
@@ -7,7 +8,7 @@ if [[ $(command -v brew) == "" ]]; then
     echo -e \n "Installing Homebrew package manager" \n ;
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     else
-    echo  -e \n "Halting the script" \n  && exit ;
+    echo -e \n "Halting the script" \n  && exit ;
     fi
 else
   echo -e \n "Homebrew is already installed. Checking for updates …" \n ;
@@ -28,12 +29,13 @@ cat << EOF > ~/Desktop/shared/gui-setup.sh
 
 #!/bin/bash
 
+## this part of the script runs in ubuntu ##
 if [ \$(whoami) != "root" ]; then echo -e "This script requires root permission. Please try:" \n "sudo ~/Desktop/shared/gui-setup.sh" >&2; exit 1;
 else
 apt update && sudo apt upgrade -y ;
-apt install -y xubuntu-desktop xrdp ; 
+apt install -y xubuntu-core xrdp ; 
 echo xfce4-session > ~/.xsession ;
-echo -e \n "Please set a password for the default ubuntu user" \n ;
+echo -e "Please set a password for the default ubuntu user" ;
 passwd ubuntu ; 
 adduser xrdp ssl-cert ;
 systemctl restart xrdp ; 
@@ -42,5 +44,4 @@ exit 0 ;
 EOF
 
 chmod ug+x ~/Desktop/shared/gui-setup.sh ;
-
 exit 0 ;
