@@ -20,15 +20,6 @@ echo -e "\n Installing the Multipass VM hosting environment \n" ;
 $brew install --quiet qemu multipass && multi=$(which multipass) ;
 mkdir -p ~/Desktop/shared ;
 
-osascript <<END
-if button returned of (display dialog "To allow folder sharing between your Mac and the VM, 'multipassd' requires Full Disk Access."  with icon note buttons {"Open Security Prefs now","Cancel"} default button 1) = "Open Security Prefs now" then
-tell application "System Settings"
-	activate
-	reveal anchor "Privacy_AllFiles" of pane id "com.apple.settings.PrivacySecurity.extension"
-end tell
-end if
-END
-
 myDate=$(date +%Y-%m-%d-%H-%M-%S)
 myHostName=$(whoami)-linux-vm-"$myDate"
 
@@ -54,4 +45,20 @@ exit 0 ;
 EOF
 
 chmod ug+x ~/Desktop/shared/gui-setup.sh ;
+
+# tell user to allow full disk access for multipassd
+osascript <<END
+set buttonText to "To allow folder sharing between your Mac and the VM, 'multipassd' requires Full Disk Access."
+if button returned of (display dialog buttonText with icon note buttons {"Open Security Prefs now","Cancel"} default button 1) = "Open Security Prefs now" then
+tell application "System Settings"
+	activate
+	reveal anchor "Privacy_AllFiles" of pane id "com.apple.settings.PrivacySecurity.extension"
+end tell
+end if
+END
+
+
+
+
+
 exit 0 ;
