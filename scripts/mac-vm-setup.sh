@@ -18,6 +18,7 @@ fi
 brew=$(which brew) ;
 echo -e "\n Installing the Multipass VM hosting environment \n" ;
 $brew install --quiet qemu multipass && multi=$(which multipass) ;
+mkdir -p ~/Desktop/shared ;
 
 myDate=$(date +%Y-%m-%d-%H-%M-%S)
 myHostName=$(whoami)-linux-vm-"$myDate"
