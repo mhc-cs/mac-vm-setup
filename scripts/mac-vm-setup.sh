@@ -23,6 +23,7 @@ mkdir -p ~/Desktop/shared ;
 myDate=$(date +%Y-%m-%d-%H-%M-%S)
 myHostName=$(whoami)-linux-vm-"$myDate"
 
+## somehow we have to give multipassd full disk access before next line
 $multi launch lts --name "$myHostName" --memory 2G --disk 12G --cpus 2 --mount  ~/Desktop/shared:/home/ubuntu/Desktop/shared
 $multi set client.primary-name="$myHostName"
 
