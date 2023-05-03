@@ -20,10 +20,18 @@ echo -e "\n Installing the Multipass VM hosting environment \n" ;
 $brew install --quiet qemu multipass && multi=$(which multipass) ;
 mkdir -p ~/Desktop/shared ;
 
+osascript <<END
+if button returned of (display dialog "To allow folder sharing between your Mac and the VM, 'multipassd' requires Full Disk Access."  with icon note buttons {"Open Security Prefs now","Cancel"} default button 1) = "Open Security Prefs now" then
+tell application "System Settings"
+	activate
+	reveal anchor "Privacy_AllFiles" of pane id "com.apple.settings.PrivacySecurity.extension"
+end tell
+end if
+END
+
 myDate=$(date +%Y-%m-%d-%H-%M-%S)
 myHostName=$(whoami)-linux-vm-"$myDate"
 
-## somehow we have to give multipassd full disk access before next line
 $multi launch lts --name "$myHostName" --memory 2G --disk 12G --cpus 2 --mount  ~/Desktop/shared:/home/ubuntu/Desktop/shared
 $multi set client.primary-name="$myHostName"
 
