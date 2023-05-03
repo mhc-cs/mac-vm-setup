@@ -30,8 +30,8 @@ $multi launch lts --name "$myHostName" --memory 2G --disk 12G --cpus 2 --mount  
 $multi set client.primary-name="$myHostName"
 
 # create the gui-setup script in the shared directory
-cat << EOF > ~/Desktop/shared/gui-setup.sh
 
+cat << EOF > ~/Desktop/shared/gui-setup.sh
 #!/bin/bash
 
 ## this part of the script runs in ubuntu ##
