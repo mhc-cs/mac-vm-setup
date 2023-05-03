@@ -30,10 +30,8 @@ $multi launch lts --name "$myHostName" --memory 2G --disk 12G --cpus 2 --mount  
 $multi set client.primary-name="$myHostName"
 
 # create the gui-setup script in the shared directory
-
 cat << EOF > ~/Desktop/shared/gui-setup.sh
 #!/bin/bash
-
 ## this part of the script runs in ubuntu ##
 if [ \$(whoami) != "root" ]; then echo -e "\n this script requires root permission. Please try: \n ---> sudo ~/Desktop/shared/gui-setup.sh" >&2; exit 1;
 else
@@ -54,13 +52,16 @@ chmod ug+x ~/Desktop/shared/gui-setup.sh ;
 
 # tell user to allow full disk access for multipassd
 osascript <<END
-set buttonText to "To allow folder sharing between your Mac and the VM, 'multipassd' requires Full Disk Access."
-if button returned of (display dialog buttonText with icon note buttons {"Open Security Prefs now","Cancel"} default button 1) = "Open Security Prefs now" then
-tell application "System Settings"
-	activate
-	reveal anchor "Privacy_AllFiles" of pane id "com.apple.settings.PrivacySecurity.extension"
-end tell
-end if
+try
+	set openIt to "Open Security Prefs now"
+	set buttonText to "To allow folder sharing between your Mac and the VM, 'multipassd' requires Full Disk Access."
+	if button returned of (display dialog buttonText with icon note buttons {openIt, "Cancel"} default button 1) = openIt then
+		tell application "System Settings"
+			activate
+			reveal anchor "Privacy_AllFiles" of pane id "com.apple.settings.PrivacySecurity.extension"
+		end tell
+	end if
+end try
 END
 
 exit 0 ;
