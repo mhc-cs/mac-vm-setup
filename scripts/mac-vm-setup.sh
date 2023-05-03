@@ -5,18 +5,18 @@
 if [[ $(command -v brew) == "" ]]; then
     read -e -p  "Homebrew is not installed on your Mac; would you like to install it? [ y | N ] "  user_response
     if [ $user_response == "y" ] ; then
-    echo -e \n "Installing Homebrew package manager" \n ;
+    echo -e "\n Installing Homebrew package manager \n" ;
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     else
-    echo -e \n "Halting the script" \n  && exit ;
+    echo -e "\n Halting the script \n"  && exit ;
     fi
 else
-  echo -e \n "Homebrew is already installed. Checking for updates …" \n ;
+  echo -e "\n Homebrew is already installed. Checking for updates … \n " ;
   brew update
 fi
 
 brew=$(which brew) ;
-echo -e \n "Installing the Multipass VM hosting environment" \n ;
+echo -e "\n Installing the Multipass VM hosting environment \n" ;
 $brew install --quiet qemu multipass && multi=$(which multipass) ;
 
 myDate=$(date +%Y-%m-%d-%H-%M-%S)
@@ -30,12 +30,12 @@ cat << EOF > ~/Desktop/shared/gui-setup.sh
 #!/bin/bash
 
 ## this part of the script runs in ubuntu ##
-if [ \$(whoami) != "root" ]; then echo -e "This script requires root permission. Please try:" \n "sudo ~/Desktop/shared/gui-setup.sh" >&2; exit 1;
+if [ \$(whoami) != "root" ]; then echo -e "\n this script requires root permission. Please try: \n ---> sudo ~/Desktop/shared/gui-setup.sh" >&2; exit 1;
 else
 apt update && sudo apt upgrade -y ;
-apt install -y xubuntu-core xrdp ; 
+apt install -y net-tools xubuntu-core xrdp ; 
 echo "xfce4-session" > /home/ubuntu/.xsession ;
-echo -e "Please set a password for the default ubuntu user" ;
+echo -e "\n Please set a password for the default ubuntu user \n" ;
 passwd ubuntu ; 
 adduser xrdp ssl-cert ;
 systemctl restart xrdp ; 
