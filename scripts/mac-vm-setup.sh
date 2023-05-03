@@ -1,6 +1,7 @@
 #!/bin/bash
 
 ## this part of the script runs in mac os ##
+
 # check if homebrew installed
 if [[ $(command -v brew) == "" ]]; then
     read -e -p  "Homebrew is not installed on your Mac; would you like to install it? [ y | N ] "  user_response
@@ -15,6 +16,7 @@ else
   brew update
 fi
 
+## install multipass and create shared directory
 brew=$(which brew) ;
 echo -e "\n Installing the Multipass VM hosting environment \n" ;
 $brew install --quiet qemu multipass && multi=$(which multipass) ;
@@ -23,9 +25,11 @@ mkdir -p ~/Desktop/shared ;
 myDate=$(date +%Y-%m-%d-%H-%M-%S)
 myHostName=$(whoami)-linux-vm-"$myDate"
 
+# launch the new VM and make it the primary
 $multi launch lts --name "$myHostName" --memory 2G --disk 12G --cpus 2 --mount  ~/Desktop/shared:/home/ubuntu/Desktop/shared
 $multi set client.primary-name="$myHostName"
 
+# create the gui-setup script in the shared directory
 cat << EOF > ~/Desktop/shared/gui-setup.sh
 
 #!/bin/bash
@@ -44,6 +48,8 @@ fi
 exit 0 ;
 EOF
 
+# now we're back in macos terminal
+# make gui setup script executable
 chmod ug+x ~/Desktop/shared/gui-setup.sh ;
 
 # tell user to allow full disk access for multipassd
@@ -56,9 +62,5 @@ tell application "System Settings"
 end tell
 end if
 END
-
-
-
-
 
 exit 0 ;
